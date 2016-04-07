@@ -17,7 +17,7 @@ type mysqlStore struct {
 	*mysqlstore.MySQLStore
 }
 
-// NewMySQLStore return a session store based on mongodb
+// NewMySQLStore return a session store based on mysql
 func NewMySQLStore(endpoint, tableName, path string, maxAge int, keyPairs ...[]byte) (MySQLStore, error) {
 	store, err := mysqlstore.NewMySQLStore(endpoint, tableName, path, maxAge, keyPairs)
 	if err != nil {
