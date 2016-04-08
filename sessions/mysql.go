@@ -6,7 +6,7 @@ package sessions
 import (
 	ginsession "github.com/gin-gonic/contrib/sessions"
 	"github.com/gorilla/sessions"
-	"github.com/srinathgs/mysqlstore"
+	"github.com/kimiazhu/golib/sessions/mysqlstore"
 )
 
 type MySQLStore interface {
@@ -18,12 +18,21 @@ type mysqlStore struct {
 }
 
 // NewMySQLStore return a session store based on mysql
-func NewMySQLStore(endpoint, tableName, path string, maxAge int, keyPairs ...[]byte) (MySQLStore, error) {
-	store, err := mysqlstore.NewMySQLStore(endpoint, tableName, path, maxAge, keyPairs)
+/* by default the maxAge is 0, you can change the value by
+   setting session.Options:
+
+	    session.Options(Options{
+	        MaxAge: 3600,
+	        Domain: localhost,
+			Path: "/foo/bar/bat",
+		})
+*/
+func NewMySQLStore(endpoint, tableName string, keyPairs ...[]byte) (MySQLStore, error) {
+	store, err := mysqlstore.NewMySQLStore(endpoint, tableName, "/", 0, keyPairs...)
 	if err != nil {
 		return nil, err
 	}
-	return &mysqlStore{store}
+	return &mysqlStore{store}, nil
 }
 
 func (c *mysqlStore) Options(options ginsession.Options) {

@@ -9,10 +9,13 @@ import (
 	"testing"
 )
 
-const mongoTestServer = "localhost:6379"
+const mongoTestServer = "localhost:27017"
 
 var newMongoStore = func(_ *testing.T) Store {
 	dbsess, err := mgo.Dial(mongoTestServer)
+	if err != nil {
+		panic(err)
+	}
 	store := NewMongoStore(dbsess, "session", "session", 3600, true, []byte("secret"))
 	return store
 }

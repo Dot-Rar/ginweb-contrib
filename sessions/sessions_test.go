@@ -7,6 +7,8 @@ import (
 	"net/http/httptest"
 	"strings"
 	"testing"
+
+	_ "github.com/srinathgs/mysqlstore"
 )
 
 type storeFactory func(*testing.T) Store
@@ -181,6 +183,7 @@ func sessionOptions(t *testing.T, newStore storeFactory) {
 	r := gin.Default()
 	store := newStore(t)
 	store.Options(Options{
+		MaxAge: 3600,
 		Domain: "localhost",
 	})
 	r.Use(Sessions(sessionName, store))
@@ -189,6 +192,7 @@ func sessionOptions(t *testing.T, newStore storeFactory) {
 		session := Default(c)
 		session.Set("key", ok)
 		session.Options(Options{
+			MaxAge: 3600,
 			Path: "/foo/bar/bat",
 		})
 		session.Save()

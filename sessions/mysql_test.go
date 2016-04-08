@@ -5,15 +5,14 @@ package sessions
 
 import (
 	. "github.com/gin-gonic/contrib/sessions"
-	"gopkg.in/mgo.v2"
 	"testing"
 )
 
-const mysqlTestServer = "testuser:testpw@tcp(localhost:3306)/testdb?parseTime=true&loc=Local"
+//const mysqlTestServer = "testuser:testpw@tcp(localhost:3306)/testdb?parseTime=true&loc=Local"
+const mysqlTestServer = "xgsdk2_zhh:xgsdk2_zhh@tcp(10.20.122.235:3306)/xgsdk2_zhh?parseTime=true&loc=Local"
 
 var newMySQLStore = func(_ *testing.T) Store {
-	dbsess, err := mgo.Dial(mysqlTestServer)
-	store, err := NewMySQLStore(mysqlTestServer, "sessionstore", "/", 3600, []byte("secret-key"))
+	store, err := NewMySQLStore(mysqlTestServer, "sessionstore", []byte("secret-key"))
 	if err != nil {
 		panic(err)
 	}
