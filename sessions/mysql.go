@@ -4,9 +4,8 @@
 package sessions
 
 import (
+	"github.com/TicketsBot/mysqlstore"
 	ginsession "github.com/gin-gonic/contrib/sessions"
-	"github.com/gorilla/sessions"
-	"github.com/kimiazhu/golib/sessions/mysqlstore"
 )
 
 type MySQLStore interface {
@@ -36,11 +35,5 @@ func NewMySQLStore(endpoint, tableName string, keyPairs ...[]byte) (MySQLStore, 
 }
 
 func (c *mysqlStore) Options(options ginsession.Options) {
-	c.MySQLStore.Options = &sessions.Options{
-		Path:     options.Path,
-		Domain:   options.Domain,
-		MaxAge:   options.MaxAge,
-		Secure:   options.Secure,
-		HttpOnly: options.HttpOnly,
-	}
+	c.Options(options)
 }
